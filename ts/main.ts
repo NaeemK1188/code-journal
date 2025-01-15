@@ -10,6 +10,7 @@ const $inputURL = document.querySelector('.inputURL');
 
 const $img = document.querySelector('img');
 // console.log($img?.getAttribute('src'));
+
 const $form = document.querySelector('form');
 // console.log($form);
 
@@ -17,6 +18,8 @@ if (!$inputURL || !$img || !$form)
 {
   throw new Error('$inputURL or $img or $form are not exists');
 }
+
+
 
 $inputURL.addEventListener('input', (event: Event) => {
   console.log('input event is fired');
@@ -55,6 +58,14 @@ $form.addEventListener('submit', (event: Event) => {
   entry.entryTextArea = formTextArea.value;
   entry.entryId = data.nextEntryId; // if we don't increment the nextEntryId it will always reset the  entry.entryId to 1 so
   //  entry.entryId = entry.entryId + 1; wont work because entry.entryId always is resetting to 1
+  console.log(entry);
   console.log('entry ID:', entry.entryId);
   data.nextEntryId = data.nextEntryId + 1;
+  data.entries.push(entry);
+  // adding more entries in every eventListener call
+  console.log(data.entries);
+
+  // src is a string
+  $img.src = "images/placeholder-image-square.jpg"
+  $form.reset();
 });

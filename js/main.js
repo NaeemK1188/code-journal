@@ -39,6 +39,13 @@ $form.addEventListener('submit', (event) => {
     entry.entryTextArea = formTextArea.value;
     entry.entryId = data.nextEntryId; // if we don't increment the nextEntryId it will always reset the  entry.entryId to 1 so
     //  entry.entryId = entry.entryId + 1; wont work because entry.entryId always is resetting to 1
+    console.log(entry);
     console.log('entry ID:', entry.entryId);
     data.nextEntryId = data.nextEntryId + 1;
+    data.entries.push(entry);
+    // adding more entries in every eventListener call
+    console.log(data.entries);
+    // src is a string
+    $img.src = "images/placeholder-image-square.jpg";
+    $form.reset();
 });
