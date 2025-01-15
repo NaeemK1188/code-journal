@@ -1,7 +1,9 @@
-interface Entry {
+interface Entry
+{
   entryTitle?: string;
   entryURL?: string;
   entryTextArea?: string;
+  entryId?:number;
 }
 
 const $inputURL = document.querySelector('.inputURL');
@@ -11,7 +13,8 @@ const $img = document.querySelector('img');
 const $form = document.querySelector('form');
 // console.log($form);
 
-if (!$inputURL || !$img || !$form) {
+if (!$inputURL || !$img || !$form)
+{
   throw new Error('$inputURL or $img or $form are not exists');
 }
 
@@ -28,9 +31,10 @@ $inputURL.addEventListener('input', (event: Event) => {
   // $img = $imgURL;
   // $img.setAttribute('src', $imgURL);
   // image is an object and has an attribute src so its similar to objects on typescript
-  // $img.src = imgURL;
+     $img.src = imgURL;
   // console.log($imgURL);
 });
+
 
 $form.addEventListener('submit', (event: Event) => {
   console.log('submit event is fired');
@@ -38,7 +42,7 @@ $form.addEventListener('submit', (event: Event) => {
   console.log('form submitted');
   const entry: Entry = {};
 
-  // const formElements = $form.elements as HTMLFormControlsCollection;
+  const formElements = $form.elements;
   // console.log(formElements);
   // different way than the typescript from assignment
   const formTitle = $form.elements[0] as HTMLInputElement;
@@ -49,5 +53,8 @@ $form.addEventListener('submit', (event: Event) => {
   entry.entryTitle = formTitle.value;
   entry.entryURL = formURL.value;
   entry.entryTextArea = formTextArea.value;
-  console.log(entry);
+  entry.entryId = data.nextEntryId; // if we don't increment the nextEntryId it will always reset the  entry.entryId to 1 so
+  //  entry.entryId = entry.entryId + 1; wont work because entry.entryId always is resetting to 1
+  console.log('entry ID:', entry.entryId);
+  data.nextEntryId = data.nextEntryId + 1;
 });
