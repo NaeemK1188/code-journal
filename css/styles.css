@@ -24,12 +24,26 @@ textarea {
   border-color: rgba(202, 201, 201, 0.649);
 }
 
+.btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
 button {
   background-color: rgb(102, 32, 167);
   color: white;
   border-radius: 5px;
-  width: 70px;
+  width: 60px;
   height: 40px;
-  position: relative;
-  left: 760px;
+  cursor: pointer;
+
+  /* position: relative; */
+
+  /* left: 92.5%; */
+
+  /* margin-left: 0%; */
+}
+
+button:active {
+  top: 2px;
 }
