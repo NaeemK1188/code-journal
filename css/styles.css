@@ -9,6 +9,7 @@ header {
 img {
   width: 100%;
   margin-bottom: 15px;
+  border-radius: 5px;
 }
 
 input {
@@ -47,5 +48,3 @@ button {
 button:active {
   top: 2px;
 }
-
-
