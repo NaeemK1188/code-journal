@@ -22,7 +22,10 @@ $form.addEventListener('submit', (event) => {
     entry.entryTextArea = formTextArea.value;
     entry.entryId = data.nextEntryId;
     data.nextEntryId = data.nextEntryId + 1;
-    data.entries.push(entry);
+    // adding new post to te end which is wrong because new posts have to be at the top
+    // data.entries.push(entry);
+    // adding the new post data to the top, so we know its a new post
+    data.entries.unshift(entry);
     writeEntry();
     $img.src = "images/placeholder-image-square.jpg";
     $form.reset();
