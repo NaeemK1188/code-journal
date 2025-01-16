@@ -22,12 +22,12 @@ if (!$inputURL || !$img || !$form)
 
 
 $inputURL.addEventListener('input', (event: Event) => {
-  console.log('input event is fired');
+
   const eventTarget = event.target as HTMLInputElement;
 
 
   const imgURL = eventTarget.value;
-  console.log(imgURL);
+
 
   $img.src = imgURL;
 
@@ -35,9 +35,9 @@ $inputURL.addEventListener('input', (event: Event) => {
 
 
 $form.addEventListener('submit', (event: Event) => {
-  console.log('submit event is fired');
+
   event.preventDefault();
-  console.log('form submitted');
+
   const entry: Entry = {};
 
   const formElements = $form.elements;
@@ -50,16 +50,14 @@ $form.addEventListener('submit', (event: Event) => {
   entry.entryTitle = formTitle.value;
   entry.entryURL = formURL.value;
   entry.entryTextArea = formTextArea.value;
-  entry.entryId = data.nextEntryId;
-  console.log(entry);
-  console.log('entry ID:', entry.entryId);
+  entry.entryId = data.nextEntryId; 
   data.nextEntryId = data.nextEntryId + 1;
   data.entries.push(entry);
 
-  console.log(data.entries);
 
 
-  writeEntry(); 
+
+  writeEntry();
   $img.src = "images/placeholder-image-square.jpg"
   $form.reset();
 });
