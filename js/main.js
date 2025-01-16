@@ -46,7 +46,7 @@ $form.addEventListener('submit', (event) => {
     // adding more entries in every eventListener call
     console.log(data.entries);
     // src is a string
-    // writeEntry(); // the compiler goes line by line, so when it reaches line 69
+    writeEntry(); // the compiler goes line by line, so when it reaches line 69
     // , it reads writeEntry() and write the entry to the storage
     $img.src = "images/placeholder-image-square.jpg";
     $form.reset();
