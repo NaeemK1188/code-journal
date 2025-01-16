@@ -15,6 +15,8 @@ const data:Data = {
 };
 
 
+data.entries = readEntry();
+
 
 function writeEntry():void
 {
@@ -23,7 +25,7 @@ function writeEntry():void
 
 }
 
-function readEntry():Data[]
+function readEntry():Entry[]
 {
   const entryList = localStorage.getItem('entry-storage');
 
@@ -31,7 +33,7 @@ function readEntry():Data[]
   if(entryList)
   {
     // or const newEntryList:Data[] = JSON.parse(entryList);
-    return JSON.parse(entryList) as Data[];
+    return JSON.parse(entryList) as Entry[];
   }
 
   else
