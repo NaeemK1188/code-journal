@@ -5,3 +5,7 @@ const data = {
     editing: null,
     nextEntryId: 1,
 };
+function writeEntry() {
+    const entryJSON = JSON.stringify(data.entries);
+    localStorage.setItem('entry-storage', entryJSON);
+}

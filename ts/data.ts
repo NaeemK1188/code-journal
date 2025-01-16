@@ -13,3 +13,12 @@ const data:Data = {
   editing: null,
   nextEntryId: 1,
 };
+
+
+
+// function writeEntry():void
+// {
+//   const entryJSON = JSON.stringify(data.entries);
+//   localStorage.setItem('entry-storage',entryJSON);
+
+// }
