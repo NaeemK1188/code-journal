@@ -110,6 +110,23 @@ function renderEntry(entry:Entry):HTMLLIElement
 }
 
 
+document.addEventListener('DOMContentLoaded', () => {
+  const $ul = document.querySelector('ul');
+  for (let i = 0; i < data.entries.length; i++)
+  {
+    $ul?.appendChild(renderEntry(data.entries[i]));
+  }
+
+});
+
+
+
+
+
+
+
+
+
 
 
 // blueprint

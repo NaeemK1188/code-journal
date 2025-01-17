@@ -22,6 +22,7 @@ $form.addEventListener('submit', (event) => {
         entryTextArea: formTextArea.value,
         entryId: data.nextEntryId,
     };
+    // or
     // entry.entryTitle = formTitle.value;
     // entry.entryURL = formURL.value;
     // entry.entryTextArea = formTextArea.value;
@@ -40,6 +41,7 @@ function renderEntry(entry) {
     const $parentLI = document.createElement('li');
     const $divRow = document.createElement('div');
     $divRow.setAttribute('class', 'row');
+    // after being appended, it will be outputted because its added to the DOM
     $parentLI.appendChild($divRow);
     const $divColHalfFirst = document.createElement('div');
     $divColHalfFirst.setAttribute('class', 'column-half');
@@ -55,11 +57,19 @@ function renderEntry(entry) {
     $divColHalfSecond.setAttribute('class', 'column-half');
     $divRow.appendChild($divColHalfSecond);
     const $h2 = document.createElement('h2');
+    $h2.textContent = entry.entryTitle;
     $divColHalfSecond.appendChild($h2);
     const $h5 = document.createElement('h5');
+    $h5.textContent = entry.entryTextArea;
     $divColHalfSecond.appendChild($h5);
     return $parentLI;
 }
+document.addEventListener('DOMContentLoaded', () => {
+    const $ul = document.querySelector('ul');
+    for (let i = 0; i < data.entries.length; i++) {
+        $ul?.appendChild(renderEntry(data.entries[i]));
+    }
+});
 // blueprint
 // <li>
 //     <div class="row">
