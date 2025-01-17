@@ -66,3 +66,22 @@ button:active {
   margin-left: 20px;
   margin-top: 30px;
 }
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.new-btn {
+  font-weight: bold;
+  font-size: large;
+  font-family: serif;
+  width: 80px;
+  margin-top: 25px ;
+
+}
+
+
+/* .sub-main {
+
+} */
