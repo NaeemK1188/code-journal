@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Code Journal</title>
     <link rel="icon" href="images/favicon.ico" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/layout.css" />
     <link rel="stylesheet" href="css/styles.css" />
@@ -17,13 +20,17 @@
       <div class="container">
         <div class="row">
           <div class="column-full">
-            <h1 class="header-h1">Code Journal</h1>
+            <div class="body-header">
+              <h1 class="header-h1">Code Journal</h1>
+              <!-- not required yet -->
+              <h3 class="header-h3">Entries</h3>
+            </div>
           </div>
         </div>
       </div>
     </header>
     <main class="container">
-      <div data-view="entry-form">
+      <div data-view="entry-form" class="hidden">
         <form>
           <div class="row">
             <div class="column-full">
@@ -32,19 +39,36 @@
           </div>
           <div class="row">
             <div class="column-half">
-              <img src="images/placeholder-image-square.jpg" alt="empty image" />
+              <img
+                src="images/placeholder-image-square.jpg"
+                alt="empty image" />
             </div>
             <div class="column-half">
               <label for="text">Title</label>
-              <input class="inputTitle" type="text" id="text" name="text" placeholder="Enter image title" required />
+              <input
+                class="inputTitle"
+                type="text"
+                id="text"
+                name="text"
+                placeholder="Enter image title"
+                required />
               <label for="url">Photo URL</label>
-              <input class="inputURL" type="url" id="url" name="url" placeholder="Enter image URL " required />
+              <input
+                class="inputURL"
+                type="url"
+                id="url"
+                name="url"
+                placeholder="Enter image URL "
+                required />
             </div>
           </div>
           <div class="row">
             <div class="column-full">
               <label for="comment">Notes</label>
-              <textarea id="comment" name="comment" placeholder="Enter image feedback..."></textarea>
+              <textarea
+                id="comment"
+                name="comment"
+                placeholder="Enter image feedback..."></textarea>
             </div>
           </div>
           <div class="row">
@@ -56,10 +80,17 @@
           </div>
         </form>
       </div>
-      <div data-view="entries" class="hidden">
-        <ul>
-          
-        </ul>
+      <div data-view="entries">
+        <div class="row">
+          <div class="column-full">
+            <div class="sub-header-container">
+              <h1>Entries</h1>
+              <!-- not required yet -->
+              <button>NEW</button>
+            </div>
+          </div>
+        </div>
+        <ul></ul>
       </div>
     </main>
     <script src="js/data.js"></script>

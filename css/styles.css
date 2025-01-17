@@ -48,3 +48,21 @@ button {
 button:active {
   top: 2px;
 }
+
+/* we don't need to create this css-rule because new button is not required yet */
+.sub-header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* we don't need to create this css-rule because new button is not required yet */
+.body-header {
+  display: flex;
+}
+
+/* we don't need to add it because entries sub header is not required yet */
+.header-h3 {
+  color: white;
+  margin-left: 20px;
+  margin-top: 30px;
+}
