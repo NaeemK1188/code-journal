@@ -1,5 +1,10 @@
 header {
   background-color: rgb(102, 32, 167);
+
+  /* stays at the top in the stack relative to its
+  position and using top:0 to stay at position 0 all the time  */
+  position: sticky;
+  top: 0;
 }
 
 .header-h1 {
