@@ -1,5 +1,6 @@
 
 // data modal for entry object
+// each entry in the webpage
 interface Entry
 {
   entryTitle: string;
@@ -112,9 +113,15 @@ function renderEntry(entry:Entry):HTMLLIElement
 
 document.addEventListener('DOMContentLoaded', () => {
   const $ul = document.querySelector('ul');
+
+  if (!$ul)
+  {
+    throw new Error("$ul not exists");
+  }
+  
   for (let i = 0; i < data.entries.length; i++)
   {
-    $ul?.appendChild(renderEntry(data.entries[i]));
+    $ul.appendChild(renderEntry(data.entries[i]));
   }
 
 });
