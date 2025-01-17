@@ -79,7 +79,7 @@ button:active {
 }
 
 /* pushing entire ul container to the right using margin left */
-ul {
+.Entry-List-ul {
   list-style-type: none;
   padding: 0;
   margin-left: 15px;
