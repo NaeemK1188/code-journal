@@ -46,3 +46,4 @@ function readEntry(): Data
   }
 
 }
+
