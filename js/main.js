@@ -2,6 +2,16 @@
 const $inputURL = document.querySelector('.inputURL');
 const $img = document.querySelector('img');
 const $form = document.querySelector('form');
+// we are selecting div with data-view="entries"
+// using as makes typescript knows its type and removing the error
+const $divEntryForm = document.querySelector('div[data-view=entry-form]');
+// console.log($divFormEntry);
+// output the <div data-view="entries"></div>
+const $divEntries = document.querySelector('div[data-view=entries]');
+// console.log($divEntries);
+if (!$divEntries || !$divEntryForm) {
+    throw new Error('$divEntries or !$divEntryForm not exist');
+}
 if (!$inputURL || !$img || !$form) {
     throw new Error('$inputURL or $img or $form are not exists');
 }
@@ -32,8 +42,9 @@ $form.addEventListener('submit', (event) => {
     // data.entries.push(entry);
     // adding the new post data to the top, so we know its a new post
     data.entries.unshift(entry);
-    writeEntry();
-    $img.src = "images/placeholder-image-square.jpg";
+    // changing writeEntry to writeData, so it matches the naming requirement
+    writeData();
+    $img.src = 'images/placeholder-image-square.jpg';
     $form.reset();
 });
 // from somewhere an entry will be passed to renderEntry function
@@ -65,6 +76,7 @@ function renderEntry(entry) {
     return $parentLI;
 }
 // safety function because even if we don't create it it will load everything
+// all our elements in ul are created in our DOM or the page
 document.addEventListener('DOMContentLoaded', () => {
     const $ulList = document.querySelector('.Entry-List-ul');
     if (!$ulList) {
@@ -73,8 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < data.entries.length; i++) {
         $ulList.appendChild(renderEntry(data.entries[i]));
     }
-    // we are testing it  here because when out elements are created
-    toggleNoEntries();
+    // we are testing it  here because when our elements are created
+    // we call toggle to switch between adding h2 no entries or seeing the entries if they are exists
+    // toggleNoEntries();
 });
 function toggleNoEntries() {
     const $NoEntriesH2 = document.querySelector('.no-entries-msg');
@@ -94,8 +107,14 @@ function toggleNoEntries() {
 function viewSwap(viewName) {
     if (viewName === 'entries') {
         // adding class property to a DOM elements
-        // $entryForm.classList.add('hidden';)
-        // $entryView.classList.remove('hidden';)
+        // $entryForm.classList.add('hidden')
+        // $entryView.classList.remove('hidden')
+        $divEntries.classList.remove('hidden');
+        $divEntryForm.classList.add('hidden');
+    }
+    else {
+        $divEntries.classList.add('hidden');
+        $divEntryForm.classList.remove('hidden');
     }
 }
 // blueprint renderEntry()

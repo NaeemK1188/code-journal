@@ -19,6 +19,18 @@ const $img = document.querySelector('img');
 
 const $form = document.querySelector('form');
 
+// we are selecting div with data-view="entries"
+// using as makes typescript knows its type and removing the error
+const $divEntryForm = document.querySelector('div[data-view=entry-form]') as HTMLDivElement;
+// console.log($divFormEntry);
+// output the <div data-view="entries"></div>
+const $divEntries = document.querySelector('div[data-view=entries]') as HTMLDivElement;
+// console.log($divEntries);
+
+if (!$divEntries || !$divEntryForm )
+{
+  throw new Error('$divEntries or !$divEntryForm not exist');
+}
 
 if (!$inputURL || !$img || !$form)
 {
@@ -41,7 +53,6 @@ $inputURL.addEventListener('input', (event: Event) => {
 
 
 $form.addEventListener('submit', (event: Event) => {
-
   event.preventDefault();
   const formElements = $form.elements;
 
@@ -65,9 +76,9 @@ $form.addEventListener('submit', (event: Event) => {
   // data.entries.push(entry);
   // adding the new post data to the top, so we know its a new post
   data.entries.unshift(entry);
-
-  writeEntry();
-  $img.src = "images/placeholder-image-square.jpg"
+  // changing writeEntry to writeData, so it matches the naming requirement
+  writeData();
+  $img.src = 'images/placeholder-image-square.jpg';
   $form.reset();
 });
 
@@ -107,6 +118,7 @@ function renderEntry(entry:Entry):HTMLLIElement
 
 
 // safety function because even if we don't create it it will load everything
+// all our elements in ul are created in our DOM or the page
 document.addEventListener('DOMContentLoaded', () => {
   const $ulList = document.querySelector('.Entry-List-ul');
 
@@ -151,14 +163,25 @@ function toggleNoEntries():void
 
 
 
-
+// this function is just doing the functionality of swapping pages
 function viewSwap(viewName:string):void
 {
   if (viewName === 'entries')
   {
     // adding class property to a DOM elements
-    // $entryForm.classList.add('hidden';)
-    // $entryView.classList.remove('hidden';)
+    // $entryForm.classList.add('hidden')
+    // $entryView.classList.remove('hidden')
+    $divEntries.classList.remove('hidden');
+    $divEntryForm.classList.add('hidden');
+    // updating our local storage data
+    data.view = viewName;
+  }
+
+  else
+  {
+    $divEntries.classList.add('hidden');
+    $divEntryForm.classList.remove('hidden');
+    data.view = viewName;
   }
 }
 
