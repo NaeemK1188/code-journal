@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const $ulList = document.querySelector('.Entry-List-ul');
 
   if (!$ulList)
-  { 
+  {
     throw new Error("$ul not exists");
   }
 
@@ -119,6 +119,9 @@ document.addEventListener('DOMContentLoaded', () => {
   {
     $ulList.appendChild(renderEntry(data.entries[i]));
   }
+  // we are testing it  here because when our elements are created
+  // we call toggle to switch between adding h2 no entries or seeing the entries if they are exists
+  // toggleNoEntries();
 
 });
 
@@ -135,13 +138,13 @@ function toggleNoEntries():void
   if (data.entries.length === 0)
   {
     $NoEntriesH2.className = 'no-entries-msg';
-    $ulList.className = 'hidden';
+    // $ulList.className = 'hidden';
   }
 
   else
   {
     $NoEntriesH2.className = 'hidden';
-    $ulList.className = 'Entry-List-ul';
+    // $ulList.className = 'Entry-List-ul';
   }
 
 }
@@ -149,6 +152,15 @@ function toggleNoEntries():void
 
 
 
+function viewSwap(viewName:string):void
+{
+  if (viewName === 'entries')
+  {
+    // adding class property to a DOM elements
+    // $entryForm.classList.add('hidden';)
+    // $entryView.classList.remove('hidden';)
+  }
+}
 
 
 

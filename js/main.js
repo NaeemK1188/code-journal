@@ -73,6 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < data.entries.length; i++) {
         $ulList.appendChild(renderEntry(data.entries[i]));
     }
+    // we are testing it  here because when out elements are created
+    toggleNoEntries();
 });
 function toggleNoEntries() {
     const $NoEntriesH2 = document.querySelector('.no-entries-msg');
@@ -82,11 +84,18 @@ function toggleNoEntries() {
     }
     if (data.entries.length === 0) {
         $NoEntriesH2.className = 'no-entries-msg';
-        $ulList.className = 'hidden';
+        // $ulList.className = 'hidden';
     }
     else {
         $NoEntriesH2.className = 'hidden';
-        $ulList.className = 'Entry-List-ul';
+        // $ulList.className = 'Entry-List-ul';
+    }
+}
+function viewSwap(viewName) {
+    if (viewName === 'entries') {
+        // adding class property to a DOM elements
+        // $entryForm.classList.add('hidden';)
+        // $entryView.classList.remove('hidden';)
     }
 }
 // blueprint renderEntry()
