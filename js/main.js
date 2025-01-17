@@ -64,10 +64,14 @@ function renderEntry(entry) {
     $divColHalfSecond.appendChild($h5);
     return $parentLI;
 }
+// safety function
 document.addEventListener('DOMContentLoaded', () => {
     const $ul = document.querySelector('ul');
+    if (!$ul) {
+        throw new Error("$ul not exists");
+    }
     for (let i = 0; i < data.entries.length; i++) {
-        $ul?.appendChild(renderEntry(data.entries[i]));
+        $ul.appendChild(renderEntry(data.entries[i]));
     }
 });
 // blueprint

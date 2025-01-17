@@ -111,6 +111,7 @@ function renderEntry(entry:Entry):HTMLLIElement
 }
 
 
+// safety function
 document.addEventListener('DOMContentLoaded', () => {
   const $ul = document.querySelector('ul');
 
@@ -118,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
   {
     throw new Error("$ul not exists");
   }
-  
+
   for (let i = 0; i < data.entries.length; i++)
   {
     $ul.appendChild(renderEntry(data.entries[i]));
