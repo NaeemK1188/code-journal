@@ -43,10 +43,6 @@ $inputURL.addEventListener('input', (event: Event) => {
 $form.addEventListener('submit', (event: Event) => {
 
   event.preventDefault();
-
-
-
-
   const formElements = $form.elements;
 
   const formTitle = $form.elements[0] as HTMLInputElement;
@@ -69,7 +65,6 @@ $form.addEventListener('submit', (event: Event) => {
   // data.entries.push(entry);
   // adding the new post data to the top, so we know its a new post
   data.entries.unshift(entry);
-
 
   writeEntry();
   $img.src = "images/placeholder-image-square.jpg"
@@ -116,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const $ulList = document.querySelector('.Entry-List-ul');
 
   if (!$ulList)
-  {
+  { 
     throw new Error("$ul not exists");
   }
 

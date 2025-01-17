@@ -64,17 +64,32 @@ function renderEntry(entry) {
     $divColHalfSecond.appendChild($h5);
     return $parentLI;
 }
-// safety function
+// safety function because even if we don't create it it will load everything
 document.addEventListener('DOMContentLoaded', () => {
-    const $ul = document.querySelector('ul');
-    if (!$ul) {
+    const $ulList = document.querySelector('.Entry-List-ul');
+    if (!$ulList) {
         throw new Error("$ul not exists");
     }
     for (let i = 0; i < data.entries.length; i++) {
-        $ul.appendChild(renderEntry(data.entries[i]));
+        $ulList.appendChild(renderEntry(data.entries[i]));
     }
 });
-// blueprint
+function toggleNoEntries() {
+    const $NoEntriesH2 = document.querySelector('.no-entries-msg');
+    const $ulList = document.querySelector('.Entry-List-ul');
+    if (!$NoEntriesH2 || !$ulList) {
+        throw new Error('$NoEntriesH2 or $ulList not exist');
+    }
+    if (data.entries.length === 0) {
+        $NoEntriesH2.className = 'no-entries-msg';
+        $ulList.className = 'hidden';
+    }
+    else {
+        $NoEntriesH2.className = 'hidden';
+        $ulList.className = 'Entry-List-ul';
+    }
+}
+// blueprint renderEntry()
 // <li>
 //     <div class="row">
 //       <div class="column-half">
