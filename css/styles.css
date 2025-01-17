@@ -12,6 +12,12 @@ img {
   border-radius: 5px;
 }
 
+.entries-img {
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 1px;
+}
+
 input {
   border-radius: 5px;
   width: 100%;
@@ -67,9 +73,11 @@ button:active {
   margin-top: 30px;
 }
 
+/* pushing entire ul container to the right using margin left */
 ul {
   list-style-type: none;
   padding: 0;
+  margin-left: 15px;
 }
 
 .new-btn {
@@ -77,11 +85,9 @@ ul {
   font-size: large;
   font-family: serif;
   width: 80px;
-  margin-top: 25px ;
-
+  margin-top: 25px;
 }
 
-
-/* .sub-main {
-
-} */
+h5 {
+  line-height: 1px;
+}
