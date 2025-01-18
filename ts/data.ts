@@ -11,9 +11,12 @@ interface Data
 
 
 // calling function definition readEntry()
-const data = readEntry();
-
-function writeEntry():void
+// the data is checking if
+// reading the entire Data model Data object
+const data = readData();
+// changing writeEntry to writeData, so it matches the naming requirement
+// writing(saving) the entire Data data modal object to the local storage not just the entry[]
+function writeData():void
 {
   // we should stringify the whole object not only data entry
   // now we can see all the object data are stringified in the localstorage not only the Entry[]
@@ -23,7 +26,7 @@ function writeEntry():void
 }
 
 
-function readEntry(): Data
+function readData(): Data
 {
   const entryList = localStorage.getItem('entry-storage');
 

@@ -1,13 +1,17 @@
 "use strict";
 // calling function definition readEntry()
-const data = readEntry();
-function writeEntry() {
+// the data is checking if
+// reading the entire Data model Data object
+const data = readData();
+// changing writeEntry to writeData, so it matches the naming requirement
+// writing(saving) the entire Data data modal object to the local storage not just the entry[]
+function writeData() {
     // we should stringify the whole object not only data entry
     // now we can see all the object data are stringified in the localstorage not only the Entry[]
     const entryJSON = JSON.stringify(data);
     localStorage.setItem('entry-storage', entryJSON);
 }
-function readEntry() {
+function readData() {
     const entryList = localStorage.getItem('entry-storage');
     if (entryList) {
         // we don't want to return and array of entry only, it has to be the entire object Data

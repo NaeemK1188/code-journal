@@ -1,5 +1,10 @@
 header {
   background-color: rgb(102, 32, 167);
+
+  /* stays at the top in the stack relative to its
+  position and using top:0 to stay at position 0 all the time  */
+  position: sticky;
+  top: 0;
 }
 
 .header-h1 {
@@ -10,6 +15,12 @@ img {
   width: 100%;
   margin-bottom: 15px;
   border-radius: 5px;
+}
+
+.entries-img {
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 1px;
 }
 
 input {
@@ -45,6 +56,58 @@ button {
   position: relative;
 }
 
+/* the button jump to the top 2px every time we click which :active */
 button:active {
   top: 2px;
+}
+
+/* we don't need to create this css-rule because new button is not required yet */
+.sub-header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* we don't need to create this css-rule because new button is not required yet */
+.body-header {
+  display: flex;
+}
+
+/* we don't need to add it because entries sub header is not required yet */
+.header-h3 {
+  color: white;
+  margin-left: 20px;
+  margin-top: 30px;
+  cursor: pointer;
+  position:relative;
+}
+
+.header-h3:active {
+  top:2px;
+  color: black;
+}
+
+/* pushing entire ul container to the right using margin left */
+.Entry-List-ul {
+  list-style-type: none;
+  padding: 0;
+  margin-left: 15px;
+}
+
+.new-btn {
+  font-weight: bold;
+  font-size: large;
+  font-family: serif;
+  width: 80px;
+  margin-top: 25px;
+}
+
+h5 {
+  line-height: 1px;
+}
+
+
+
+.no-entries-msg {
+  text-align: center;
+  margin-top: 300px;
 }
