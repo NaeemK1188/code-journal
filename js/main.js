@@ -10,8 +10,9 @@ const $divEntryForm = document.querySelector('div[data-view=entry-form]');
 const $divEntries = document.querySelector('div[data-view=entries]');
 // console.log($divEntries);
 const $h3Entries = document.querySelector('.header-h3');
-if (!$h3Entries) {
-    throw new Error('$$h3Entries not exists');
+const $newButton = document.querySelector('.new-btn');
+if (!$h3Entries || !$newButton) {
+    throw new Error('$$h3Entries or $newButton are not exist');
 }
 if (!$divEntries || !$divEntryForm) {
     throw new Error('$divEntries or !$divEntryForm not exist');
@@ -98,6 +99,9 @@ $h3Entries.addEventListener('click', () => {
     // viewSwap("entries")
     // const eventTarget = event.target as HTMLDivElement;
     viewSwap('entries');
+});
+$newButton.addEventListener('click', () => {
+    viewSwap('entry-form');
 });
 function toggleNoEntries() {
     const $NoEntriesH2 = document.querySelector('.no-entries-msg');

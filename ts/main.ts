@@ -28,9 +28,11 @@ const $divEntries = document.querySelector('div[data-view=entries]') as HTMLDivE
 // console.log($divEntries);
 const $h3Entries = document.querySelector('.header-h3');
 
-if (!$h3Entries)
+const $newButton = document.querySelector('.new-btn');
+
+if (!$h3Entries || !$newButton)
 {
-  throw new Error('$$h3Entries not exists');
+  throw new Error('$$h3Entries or $newButton are not exist');
 }
 
 if (!$divEntries || !$divEntryForm )
@@ -155,7 +157,9 @@ $h3Entries.addEventListener('click', () => {
 
 });
 
-
+$newButton.addEventListener('click', () => {
+  viewSwap('entry-form');
+});
 
 
 
