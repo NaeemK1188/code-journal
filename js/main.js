@@ -5,8 +5,6 @@ const $form = document.querySelector('form');
 // we are selecting div with data-view="entries"
 // using as makes typescript knows its type and removing the error
 const $divEntryForm = document.querySelector('div[data-view=entry-form]');
-// console.log($divFormEntry);
-// output the <div data-view="entries"></div>
 const $divEntries = document.querySelector('div[data-view=entries]');
 const $h3Entries = document.querySelector('.header-h3');
 const $newButton = document.querySelector('.new-btn');
@@ -55,7 +53,8 @@ $form.addEventListener('submit', (event) => {
   $img.src = 'images/placeholder-image-square.jpg';
   $form.reset();
   // when the form reset it immediately goes to entries
-  viewSwap('entry-form');
+  viewSwap('entries');
+  // viewSwap(data.view);
   toggleNoEntries();
 });
 // from somewhere an entry will be passed to renderEntry function
@@ -72,7 +71,7 @@ function renderEntry(entry) {
   const $img = document.createElement('img');
   $img.setAttribute('class', 'entries-img');
   $img.setAttribute('src', entry.entryURL);
-  $img.setAttribute('alt', 'mountain view');
+  $img.setAttribute('alt', entry.entryTitle);
   $divColHalfFirst.appendChild($img);
   const $divColHalfSecond = document.createElement('div');
   $divColHalfSecond.setAttribute('class', 'column-half');
@@ -94,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // we are testing it  here because when our elements are created
   // we call toggle to switch between adding h2 no entries or seeing the entries if they are exists
-  viewSwap('entries');
+  viewSwap(data.view);
   toggleNoEntries();
 });
 $h3Entries.addEventListener('click', () => {
@@ -119,8 +118,8 @@ function viewSwap(viewName) {
     $divEntryForm.classList.add('hidden');
     // updating our local storage data
     data.view = viewName;
-    // updating the data.view in local storage
     writeData();
+    // updating the data.view in local storage
   } else if (viewName === 'entry-form') {
     $divEntries.classList.add('hidden');
     $divEntryForm.classList.remove('hidden');

@@ -88,6 +88,7 @@ $form.addEventListener('submit', (event: Event) => {
   $form.reset();
   // when the form reset it immediately goes to entries
   viewSwap('entries');
+  // viewSwap(data.view);
   toggleNoEntries();
 });
 
@@ -130,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // we are testing it  here because when our elements are created
   // we call toggle to switch between adding h2 no entries or seeing the entries if they are exists
-  viewSwap('entry-form');
+  viewSwap(data.view);
   toggleNoEntries();
 });
 
@@ -160,10 +161,12 @@ function viewSwap(viewName: string): void {
     $divEntryForm.classList.add('hidden');
     // updating our local storage data
     data.view = viewName;
+    writeData();
     // updating the data.view in local storage
   } else if (viewName === 'entry-form') {
     $divEntries.classList.add('hidden');
     $divEntryForm.classList.remove('hidden');
     data.view = viewName;
+    writeData();
   }
 }
