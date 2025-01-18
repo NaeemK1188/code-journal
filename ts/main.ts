@@ -105,7 +105,7 @@ function renderEntry(entry: Entry): HTMLLIElement {
   const $img = document.createElement('img');
   $img.setAttribute('class', 'entries-img');
   $img.setAttribute('src', entry.entryURL);
-  $img.setAttribute('alt', 'mountain view');
+  $img.setAttribute('alt', entry.entryTitle);
   $divColHalfFirst.appendChild($img);
   const $divColHalfSecond = document.createElement('div');
   $divColHalfSecond.setAttribute('class', 'column-half');
