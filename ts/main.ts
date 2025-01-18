@@ -19,8 +19,7 @@ const $form = document.querySelector('form');
 const $divEntryForm = document.querySelector(
   'div[data-view=entry-form]',
 ) as HTMLDivElement;
-// console.log($divFormEntry);
-// output the <div data-view="entries"></div>
+
 const $divEntries = document.querySelector(
   'div[data-view=entries]',
 ) as HTMLDivElement;
