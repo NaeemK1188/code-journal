@@ -26,6 +26,12 @@ const $divEntryForm = document.querySelector('div[data-view=entry-form]') as HTM
 // output the <div data-view="entries"></div>
 const $divEntries = document.querySelector('div[data-view=entries]') as HTMLDivElement;
 // console.log($divEntries);
+const $h3Entries = document.querySelector('.header-h3');
+
+if (!$h3Entries)
+{
+  throw new Error('$$h3Entries not exists');
+}
 
 if (!$divEntries || !$divEntryForm )
 {
@@ -138,6 +144,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+$h3Entries.addEventListener('click', () => {
+  // just passing any string even a literal not just a variable
+  // viewSwap("entries")
+  // const eventTarget = event.target as HTMLDivElement;
+
+  viewSwap('entries')
+
+
+
+});
+
+
+
+
+
 function toggleNoEntries():void
 {
   const $NoEntriesH2 = document.querySelector('.no-entries-msg');
@@ -177,7 +198,7 @@ function viewSwap(viewName:string):void
     data.view = viewName;
   }
 
-  else
+  else if (viewName === 'entry-form')
   {
     $divEntries.classList.add('hidden');
     $divEntryForm.classList.remove('hidden');

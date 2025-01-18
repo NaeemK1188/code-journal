@@ -23,14 +23,14 @@
             <div class="body-header">
               <h1 class="header-h1">Code Journal</h1>
               <!-- not required yet -->
-              <h3 class="header-h3">Entries</h3>
+              <h3 class="header-h3"><a>Entries</a></h3>
             </div>
           </div>
         </div>
       </div>
     </header>
     <main class="container">
-      <div data-view="entry-form" class="hidden" >
+      <div data-view="entry-form">
         <form>
           <div class="row">
             <div class="column-full">
@@ -80,7 +80,7 @@
           </div>
         </form>
       </div>
-      <div data-view="entries" >
+      <div data-view="entries"  class="hidden">
         <div class="row">
           <div class="column-full">
             <div class="sub-header-container">
@@ -97,7 +97,6 @@
         </div>
         <!-- or use <ul></ul> to output all the entries saved in local storage -->
         <ul class="Entry-List-ul">
-
         </ul>
       </div>
     </main>

@@ -9,6 +9,10 @@ const $divEntryForm = document.querySelector('div[data-view=entry-form]');
 // output the <div data-view="entries"></div>
 const $divEntries = document.querySelector('div[data-view=entries]');
 // console.log($divEntries);
+const $h3Entries = document.querySelector('.header-h3');
+if (!$h3Entries) {
+    throw new Error('$$h3Entries not exists');
+}
 if (!$divEntries || !$divEntryForm) {
     throw new Error('$divEntries or !$divEntryForm not exist');
 }
@@ -89,6 +93,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // we call toggle to switch between adding h2 no entries or seeing the entries if they are exists
     // toggleNoEntries();
 });
+$h3Entries.addEventListener('click', () => {
+    // just passing any string even a literal not just a variable
+    // viewSwap("entries")
+    // const eventTarget = event.target as HTMLDivElement;
+    viewSwap('entries');
+});
 function toggleNoEntries() {
     const $NoEntriesH2 = document.querySelector('.no-entries-msg');
     const $ulList = document.querySelector('.Entry-List-ul');
@@ -104,6 +114,7 @@ function toggleNoEntries() {
         // $ulList.className = 'Entry-List-ul';
     }
 }
+// this function is just doing the functionality of swapping pages
 function viewSwap(viewName) {
     if (viewName === 'entries') {
         // adding class property to a DOM elements
@@ -111,10 +122,13 @@ function viewSwap(viewName) {
         // $entryView.classList.remove('hidden')
         $divEntries.classList.remove('hidden');
         $divEntryForm.classList.add('hidden');
+        // updating our local storage data
+        data.view = viewName;
     }
-    else {
+    else if (viewName === 'entry-form') {
         $divEntries.classList.add('hidden');
         $divEntryForm.classList.remove('hidden');
+        data.view = viewName;
     }
 }
 // blueprint renderEntry()
