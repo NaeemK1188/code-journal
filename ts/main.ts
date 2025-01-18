@@ -88,7 +88,6 @@ $form.addEventListener('submit', (event: Event) => {
   $form.reset();
   // when the form reset it immediately goes to entries
   viewSwap('entries');
-  // viewSwap(data.view);
   toggleNoEntries();
 });
 
