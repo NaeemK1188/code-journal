@@ -162,11 +162,9 @@ function viewSwap(viewName: string): void {
     // updating our local storage data
     data.view = viewName;
     // updating the data.view in local storage
-    writeData();
   } else if (viewName === 'entry-form') {
     $divEntries.classList.add('hidden');
     $divEntryForm.classList.remove('hidden');
     data.view = viewName;
-    writeData();
   }
 }

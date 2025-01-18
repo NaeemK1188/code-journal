@@ -8,7 +8,6 @@ const $divEntryForm = document.querySelector('div[data-view=entry-form]');
 // console.log($divFormEntry);
 // output the <div data-view="entries"></div>
 const $divEntries = document.querySelector('div[data-view=entries]');
-// console.log($divEntries);
 const $h3Entries = document.querySelector('.header-h3');
 const $newButton = document.querySelector('.new-btn');
 const $ulList = document.querySelector('.Entry-List-ul');
@@ -42,22 +41,12 @@ $form.addEventListener('submit', (event) => {
     entryTextArea: formTextArea.value,
     entryId: data.nextEntryId,
   };
-  // or
-  // entry.entryTitle = formTitle.value;
-  // entry.entryURL = formURL.value;
-  // entry.entryTextArea = formTextArea.value;
-  // entry.entryId = data.nextEntryId;
   data.nextEntryId = data.nextEntryId + 1;
   // every time we hit submit, a DOM tree is created or one entry li and appending it to ul a list
   // of entries
   // so its created quickly after submit which solves the issue of refreshing
-  // adding new post to te end which is wrong because new posts have to be at the top
-  // data.entries.push(entry);
-  // adding the new post data to the top, so we know its a new post
+  // adding the new post data to the top or beginning, so we know its a new post
   data.entries.unshift(entry);
-  // changing writeEntry to writeData, so it matches the naming requirement
-  // const newEntry = renderEntry(entry)
-  // or
   // adding only the newly created entry not the whole entries
   // prepend adds the new li at the beginning not at the end which is similar to unshift()
   // to maintain the same order in the DOM or html file like in the array entries
@@ -66,9 +55,7 @@ $form.addEventListener('submit', (event) => {
   $img.src = 'images/placeholder-image-square.jpg';
   $form.reset();
   // when the form reset it immediately goes to entries
-  // we want to click on entries not switching by itself
-  // just for a test
-  viewSwap('entries');
+  viewSwap('entry-form');
   toggleNoEntries();
 });
 // from somewhere an entry will be passed to renderEntry function
@@ -84,8 +71,6 @@ function renderEntry(entry) {
   $divRow.appendChild($divColHalfFirst);
   const $img = document.createElement('img');
   $img.setAttribute('class', 'entries-img');
-  // after removing ? thats making the the entryURL to be type string | undefined
-  // it become type string again
   $img.setAttribute('src', entry.entryURL);
   $img.setAttribute('alt', 'mountain view');
   $divColHalfFirst.appendChild($img);
@@ -109,13 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // we are testing it  here because when our elements are created
   // we call toggle to switch between adding h2 no entries or seeing the entries if they are exists
-  viewSwap('entry-form');
+  viewSwap('entries');
   toggleNoEntries();
 });
 $h3Entries.addEventListener('click', () => {
   // just passing any string even a literal not just a variable
-  // viewSwap("entries")
-  // const eventTarget = event.target as HTMLDivElement;
   viewSwap('entries');
 });
 $newButton.addEventListener('click', () => {
@@ -124,18 +107,14 @@ $newButton.addEventListener('click', () => {
 function toggleNoEntries() {
   if (data.entries.length === 0) {
     $NoEntriesH2.className = 'no-entries-msg';
-    // $ulList.className = 'hidden';
   } else {
     $NoEntriesH2.className = 'hidden';
-    // $ulList.className = 'Entry-List-ul';
   }
 }
 // this function is just doing the functionality of swapping pages
 function viewSwap(viewName) {
   if (viewName === 'entries') {
     // adding class property to a DOM elements
-    // $entryForm.classList.add('hidden')
-    // $entryView.classList.remove('hidden')
     $divEntries.classList.remove('hidden');
     $divEntryForm.classList.add('hidden');
     // updating our local storage data
@@ -149,15 +128,3 @@ function viewSwap(viewName) {
     writeData();
   }
 }
-// blueprint renderEntry()
-// <li>
-//     <div class="row">
-//       <div class="column-half">
-//         <img class="entries-img src="https://i.imgur.com/pTFzrug.jpeg" alt="mountain view" />
-//       </div>
-//       <div class="column-half">
-//         <h2>A newer image</h2>
-//         <h5>A very nice lake</h5>
-//       </div>
-//     </div>
-// </li>
