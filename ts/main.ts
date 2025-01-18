@@ -30,6 +30,15 @@ const $h3Entries = document.querySelector('.header-h3');
 
 const $newButton = document.querySelector('.new-btn');
 
+const $ulList = document.querySelector('.Entry-List-ul');
+
+const $NoEntriesH2 = document.querySelector('.no-entries-msg') as HTMLElement;
+
+if (!$NoEntriesH2 || !$ulList)
+{
+  throw new Error('$NoEntriesH2 or $ulList not exist');
+}
+
 if (!$h3Entries || !$newButton)
 {
   throw new Error('$$h3Entries or $newButton are not exist');
@@ -74,26 +83,49 @@ $form.addEventListener('submit', (event: Event) => {
     entryTextArea: formTextArea.value,
     entryId: data.nextEntryId,
   };
+
   // or
   // entry.entryTitle = formTitle.value;
   // entry.entryURL = formURL.value;
   // entry.entryTextArea = formTextArea.value;
   // entry.entryId = data.nextEntryId;
   data.nextEntryId = data.nextEntryId + 1;
+
+  // every time we hit submit, a DOM tree is created or one entry li and appending it to ul a list
+  // of entries
+  // so its created quickly after submit which solves the issue of refreshing
+
+
+
   // adding new post to te end which is wrong because new posts have to be at the top
   // data.entries.push(entry);
   // adding the new post data to the top, so we know its a new post
   data.entries.unshift(entry);
+
   // changing writeEntry to writeData, so it matches the naming requirement
+  // const newEntry = renderEntry(entry)
+  // or
+  // adding only the newly created entry not the whole entries
+  // prepend adds the new li at the beginning not at the end which is similar to unshift()
+  // to maintain the same order in the DOM or html file like in the array entries
+  $ulList.prepend(renderEntry(entry));
+
   writeData();
   $img.src = 'images/placeholder-image-square.jpg';
   $form.reset();
+  // when the form reset it immediately goes to entries
+  // we want to click on entries not switching by itself
+  // just for a test
+  viewSwap('entries');
+  toggleNoEntries();
+
 });
 
 
 
 
 // from somewhere an entry will be passed to renderEntry function
+// returning an entry
 function renderEntry(entry:Entry):HTMLLIElement
 {
   const $parentLI = document.createElement('li');
@@ -128,13 +160,8 @@ function renderEntry(entry:Entry):HTMLLIElement
 // safety function because even if we don't create it it will load everything
 // all our elements in ul are created in our DOM or the page
 document.addEventListener('DOMContentLoaded', () => {
-  const $ulList = document.querySelector('.Entry-List-ul');
 
-  if (!$ulList)
-  {
-    throw new Error("$ul not exists");
-  }
-
+  // creating a one entry and appending it to list ul
   for (let i = 0; i < data.entries.length; i++)
   {
     $ulList.appendChild(renderEntry(data.entries[i]));
@@ -151,7 +178,7 @@ $h3Entries.addEventListener('click', () => {
   // viewSwap("entries")
   // const eventTarget = event.target as HTMLDivElement;
 
-  viewSwap('entries')
+  viewSwap('entries');
 
 
 
@@ -165,12 +192,8 @@ $newButton.addEventListener('click', () => {
 
 function toggleNoEntries():void
 {
-  const $NoEntriesH2 = document.querySelector('.no-entries-msg');
-  const $ulList = document.querySelector('.Entry-List-ul');
-  if (!$NoEntriesH2 || !$ulList)
-  {
-    throw new Error('$NoEntriesH2 or $ulList not exist');
-  }
+
+
 
   if (data.entries.length === 0)
   {
@@ -200,6 +223,9 @@ function viewSwap(viewName:string):void
     $divEntryForm.classList.add('hidden');
     // updating our local storage data
     data.view = viewName;
+    // updating the data.view in local storage
+    writeData();
+
   }
 
   else if (viewName === 'entry-form')
@@ -207,7 +233,11 @@ function viewSwap(viewName:string):void
     $divEntries.classList.add('hidden');
     $divEntryForm.classList.remove('hidden');
     data.view = viewName;
+    writeData();
+
   }
+
+
 }
 
 
