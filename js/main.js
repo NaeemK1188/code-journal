@@ -45,22 +45,24 @@ $form.addEventListener('submit', (event) => {
   // so its created quickly after submit which solves the issue of refreshing
   // adding the new post data to the top or beginning, so we know its a new post
   data.entries.unshift(entry);
-  // adding only the newly created entry not the whole entries
+  // adding only the newly created entry not the whole entries s0 we can see it in DOM
   // prepend adds the new li at the beginning not at the end which is similar to unshift()
   // to maintain the same order in the DOM or html file like in the array entries
   $ulList.prepend(renderEntry(entry));
+  // adding new entry data to storage
   writeData();
+  // reset image
   $img.src = 'images/placeholder-image-square.jpg';
   $form.reset();
   // when the form reset it immediately goes to entries
   viewSwap('entries');
-  // viewSwap(data.view);
   toggleNoEntries();
 });
 // from somewhere an entry will be passed to renderEntry function
 // returning an entry
 function renderEntry(entry) {
   const $parentLI = document.createElement('li');
+  $parentLI.setAttribute('data-entry-id', 'entryId');
   const $divRow = document.createElement('div');
   $divRow.setAttribute('class', 'row');
   // after being appended, it will be outputted because its added to the DOM
@@ -78,12 +80,35 @@ function renderEntry(entry) {
   $divRow.appendChild($divColHalfSecond);
   const $h2 = document.createElement('h2');
   $h2.textContent = entry.entryTitle;
-  $divColHalfSecond.appendChild($h2);
+  const $divIcon = document.createElement('div');
+  $divIcon.setAttribute('class', 'set-Icon');
+  $divColHalfSecond.appendChild($divIcon);
+  const $icon = document.createElement('i');
+  $icon.setAttribute('class', 'fas fa-pencil');
+  $divIcon.appendChild($h2);
+  $divIcon.appendChild($icon);
   const $h5 = document.createElement('h5');
   $h5.textContent = entry.entryTextArea;
   $divColHalfSecond.appendChild($h5);
   return $parentLI;
 }
+// entry blueprint
+//   <li>
+//     <div class="row">
+//       <div class="column-half">
+//         <img
+//           class="entries-img"
+//           src="https://i.imgur.com/pTFzrug.jpeg"
+//           alt="mountain view" />
+//       </div>
+//       <div class="column-half">
+//         <h2>A newer image</h2> image title
+//          adding font FontAwesome pencil icon
+//         <i class='fas fa-pencil'></i>
+//         <h5>A very nice lake</h5> textarea
+//       </div>
+//     </div>
+// </li>
 // safety function because even if we don't create it it will load everything
 // all our elements in ul are created in our DOM or the page
 document.addEventListener('DOMContentLoaded', () => {
@@ -104,6 +129,8 @@ $newButton.addEventListener('click', () => {
   viewSwap('entry-form');
 });
 function toggleNoEntries() {
+  // we can override the name of the class and applying other class names to it
+  // to change the behavior of the DOM element
   if (data.entries.length === 0) {
     $NoEntriesH2.className = 'no-entries-msg';
   } else {

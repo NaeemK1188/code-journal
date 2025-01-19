@@ -78,11 +78,11 @@ button:active {
   margin-left: 20px;
   margin-top: 30px;
   cursor: pointer;
-  position:relative;
+  position: relative;
 }
 
 .header-h3:active {
-  top:2px;
+  top: 2px;
   color: black;
 }
 
@@ -102,12 +102,37 @@ button:active {
 }
 
 h5 {
-  line-height: 1px;
+  line-height: 23px;
+  margin-left: 5px;
 }
-
-
 
 .no-entries-msg {
   text-align: center;
   margin-top: 300px;
+}
+
+.set-Icon {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* small window size always starts from small */
+.fas.fa-pencil {
+  position: relative;
+  cursor: pointer;
+  margin-top: 25px;
+}
+
+/* large window size */
+@media screen and (width >= 768px) {
+  .fas.fa-pencil {
+    position: relative;
+    cursor: pointer;
+    margin-top: 25px;
+    margin-right: 25px;
+  }
+}
+
+.fas.fa-pencil:active {
+  top: 2px;
 }
