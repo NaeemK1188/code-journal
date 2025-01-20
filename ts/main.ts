@@ -1,14 +1,16 @@
 // data modal for entry object
 // each entry in the webpage
 interface Entry {
-  entryTitle?: string;
+  // properties not optional
+  entryTitle: string;
   // having error because of ? making it string and undefined when using entry.url
-  entryURL?: string;
-  entryTextArea?: string;
-  entryId?: number;
+  entryURL: string;
+  entryTextArea: string;
+  entryId: number;
 }
 
-let entry: Entry | null = {};
+// not global
+// let entry: Entry | null = {};
 
 const $inputURL = document.querySelector('.inputURL') as HTMLInputElement | any;
 const $inputTitle = document.querySelector('.inputTitle') as
@@ -76,7 +78,7 @@ $form.addEventListener('submit', (event: Event) => {
   const formURL = $form.elements[1] as HTMLInputElement;
   const formTextArea = $form.elements[2] as HTMLTextAreaElement;
 
-  entry = {
+  const entry = {
     entryTitle: formTitle.value,
     entryURL: formURL.value,
     entryTextArea: formTextArea.value,
@@ -207,7 +209,7 @@ function renderEntry(entry: Entry): HTMLLIElement {
 // safety function because even if we don't create it it will load everything
 // all our elements in ul are created in our DOM or the page
 document.addEventListener('DOMContentLoaded', () => {
-  viewSwap('entries'); // to starts at the 'entries' page when the document contents load up
+  // viewSwap('entries'); // to starts at the 'entries' page when the document contents load up
   // then the change of data.view will be sent to storage at line 222
   // creating a one entry and appending it to list ul
   for (let i = 0; i < data.entries.length; i++) {
@@ -237,19 +239,21 @@ $ulList.addEventListener('click', (event: Event) => {
   // debugger;
   // we can see which li element the eventtarget belongs to
   // debugger;
-  const eventTarget = event.target as HTMLLIElement;
-  // console.log(eventTarget.tagName);
+  // const eventTarget = event.target as HTMLLIElement;
+  const $eventTarget = event.target as HTMLElement; // ALL ELEMENTS IN DOM
+  console.log($eventTarget.tagName);
   // whenever we click its an LI element because we used closest with it
-  const eventTargetParent = (event.target as HTMLElement).closest('li');
+  // const eventTargetParent = (event.target as HTMLElement).closest('li');
+  const $eventTargetParent = $eventTarget.closest('li'); // treating eventTarget as DOM element
   // console.log(eventTargetParent);
-  if (eventTarget.tagName === 'I') {
+  if ($eventTarget.tagName === 'I') {
     // after using .closest we can know the entryId of the Li
     // console.log(eventTargetParent?.dataset.entryId);
     // console.log(data.entries[0].entryId);
 
     for (let i = 0; i < data.entries.length; i++) {
       if (
-        data.entries[i].entryId === Number(eventTargetParent?.dataset.entryId)
+        data.entries[i].entryId === Number($eventTargetParent?.dataset.entryId)
       ) {
         data.editing = data.entries[i];
 
@@ -265,13 +269,14 @@ $ulList.addEventListener('click', (event: Event) => {
     //   entryURL: data.editing?.entryURL,
     //   entryId: data.editing?.entryId
     // };
-
-    $inputTitle.value = data.editing?.entryTitle;
-    $inputURL.value = data.editing?.entryURL;
-    $img.src = data.editing?.entryURL;
-    $textArea.value = data.editing?.entryTextArea;
-
-    $h1.textContent = 'Edit Entry';
+    if (data.editing) {
+      // we only update if er have data.editing
+      $inputTitle.value = data.editing.entryTitle;
+      $inputURL.value = data.editing?.entryURL;
+      $img.src = data.editing?.entryURL;
+      $textArea.value = data.editing?.entryTextArea;
+      $h1.textContent = 'Edit Entry';
+    }
 
     viewSwap('entry-form');
   }
