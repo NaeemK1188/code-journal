@@ -1,6 +1,8 @@
 'use strict';
 let entry = {};
 const $inputURL = document.querySelector('.inputURL');
+const $inputTitle = document.querySelector('.inputTitle');
+const $textArea = document.querySelector('textarea');
 const $img = document.querySelector('img');
 const $form = document.querySelector('form');
 // we are selecting div with data-view="entries"
@@ -11,6 +13,12 @@ const $h3Entries = document.querySelector('.header-h3');
 const $newButton = document.querySelector('.new-btn');
 const $ulList = document.querySelector('.Entry-List-ul');
 const $NoEntriesH2 = document.querySelector('.no-entries-msg');
+// unable to select element that are not exists on the DOM
+// const $pencilIcon = document.querySelector('.fas.fa-pencil');
+// console.log($pencilIcon);
+if (!$inputTitle || !$textArea) {
+  throw new Error('$inputTitle or !$textArea not exist');
+}
 if (!$NoEntriesH2 || !$ulList) {
   throw new Error('$NoEntriesH2 or $ulList not exist');
 }
@@ -166,6 +174,42 @@ $h3Entries.addEventListener('click', () => {
 });
 $newButton.addEventListener('click', () => {
   viewSwap('entry-form');
+});
+$ulList.addEventListener('click', (event) => {
+  // debugger;
+  // we can see which li element the eventtarget belongs to
+  const eventTarget = event.target;
+  // console.log(eventTarget.tagName);
+  // whenever we click its an LI element because we used closest with it
+  const eventTargetParent = event.target.closest('li');
+  // console.log(eventTargetParent);
+  if (eventTarget.tagName === 'I') {
+    viewSwap('entry-form');
+  }
+  // after using .closest we can know the entryId of the Li
+  // console.log(eventTargetParent?.dataset.entryId);
+  // console.log(data.entries[0].entryId);
+  for (let i = 0; i < data.entries.length; i++) {
+    if (
+      data.entries[i].entryId === Number(eventTargetParent?.dataset.entryId)
+    ) {
+      data.editing = data.entries[i];
+      console.log(data);
+    }
+  }
+  // after applying the changes, we apply them on the local storage
+  writeData();
+  // entry = {
+  //   entryTextArea: data.editing?.entryTextArea,
+  //   entryTitle: data.editing?.entryTitle,
+  //   entryURL: data.editing?.entryURL,
+  //   entryId: data.editing?.entryId
+  // };
+  $inputTitle.value = data.editing?.entryTitle;
+  $inputURL.value = data.editing?.entryURL;
+  $img.src = data.editing?.entryURL;
+  $textArea.value = data.editing?.entryTextArea;
+  console.log($inputTitle.textContent);
 });
 function toggleNoEntries() {
   // we can override the name of the class and applying other class names to it
