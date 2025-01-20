@@ -18,6 +18,7 @@ const $textArea = document.querySelector('textarea') as
   | HTMLTextAreaElement
   | any;
 const $img = document.querySelector('img') as HTMLImageElement | any;
+const $h1 = document.querySelector('.New-Entry-H1') as HTMLElement;
 
 const $form = document.querySelector('form');
 
@@ -227,50 +228,53 @@ $h3Entries.addEventListener('click', () => {
 
 $newButton.addEventListener('click', () => {
   viewSwap('entry-form');
+  // resetting when creating new entry
+  $h1.textContent = 'New Entry';
+  $form.reset();
 });
 
 $ulList.addEventListener('click', (event: Event) => {
   // debugger;
   // we can see which li element the eventtarget belongs to
-
+  // debugger;
   const eventTarget = event.target as HTMLLIElement;
   // console.log(eventTarget.tagName);
   // whenever we click its an LI element because we used closest with it
   const eventTargetParent = (event.target as HTMLElement).closest('li');
   // console.log(eventTargetParent);
   if (eventTarget.tagName === 'I') {
+    // after using .closest we can know the entryId of the Li
+    // console.log(eventTargetParent?.dataset.entryId);
+    // console.log(data.entries[0].entryId);
+
+    for (let i = 0; i < data.entries.length; i++) {
+      if (
+        data.entries[i].entryId === Number(eventTargetParent?.dataset.entryId)
+      ) {
+        data.editing = data.entries[i];
+
+        console.log(data);
+      }
+    }
+    // after applying the changes, we apply them on the local storage
+    writeData();
+
+    // entry = {
+    //   entryTextArea: data.editing?.entryTextArea,
+    //   entryTitle: data.editing?.entryTitle,
+    //   entryURL: data.editing?.entryURL,
+    //   entryId: data.editing?.entryId
+    // };
+
+    $inputTitle.value = data.editing?.entryTitle;
+    $inputURL.value = data.editing?.entryURL;
+    $img.src = data.editing?.entryURL;
+    $textArea.value = data.editing?.entryTextArea;
+
+    $h1.textContent = 'Edit Entry';
+
     viewSwap('entry-form');
   }
-
-  // after using .closest we can know the entryId of the Li
-  // console.log(eventTargetParent?.dataset.entryId);
-  // console.log(data.entries[0].entryId);
-
-  for (let i = 0; i < data.entries.length; i++) {
-    if (
-      data.entries[i].entryId === Number(eventTargetParent?.dataset.entryId)
-    ) {
-      data.editing = data.entries[i];
-
-      console.log(data);
-    }
-  }
-  // after applying the changes, we apply them on the local storage
-  writeData();
-
-  // entry = {
-  //   entryTextArea: data.editing?.entryTextArea,
-  //   entryTitle: data.editing?.entryTitle,
-  //   entryURL: data.editing?.entryURL,
-  //   entryId: data.editing?.entryId
-  // };
-
-  $inputTitle.value = data.editing?.entryTitle;
-  $inputURL.value = data.editing?.entryURL;
-  $img.src = data.editing?.entryURL;
-  $textArea.value = data.editing?.entryTextArea;
-
-  console.log($inputTitle.textContent);
 });
 
 function toggleNoEntries(): void {
