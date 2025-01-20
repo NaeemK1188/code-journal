@@ -1,4 +1,5 @@
 'use strict';
+let entry = {};
 const $inputURL = document.querySelector('.inputURL');
 const $img = document.querySelector('img');
 const $form = document.querySelector('form');
@@ -33,7 +34,7 @@ $form.addEventListener('submit', (event) => {
   const formTitle = $form.elements[0];
   const formURL = $form.elements[1];
   const formTextArea = $form.elements[2];
-  const entry = {
+  entry = {
     entryTitle: formTitle.value,
     entryURL: formURL.value,
     entryTextArea: formTextArea.value,
@@ -62,7 +63,22 @@ $form.addEventListener('submit', (event) => {
 // returning an entry
 function renderEntry(entry) {
   const $parentLI = document.createElement('li');
-  $parentLI.setAttribute('data-entry-id', 'entryId');
+  let newEntryId = '';
+  // to handle the undefined because of the usage of ? making properties optional
+  // if (entry.entryId !== undefined)
+  if (entry.entryId) {
+    // if entry exists then the entryId exists, so change the type to string
+    newEntryId = entry.entryId.toString();
+    // there is a content so the current id is 1
+    console.log('current Entry ID:', newEntryId);
+  } // if there is not entry, therefore no entryId give a default value to newEntryId
+  else {
+    // we should give a default value which should be the current value. I used 0 as a test
+    newEntryId = '0';
+    console.log('current Entry ID:', newEntryId);
+  }
+  // it output the current id along with the previous id
+  $parentLI.setAttribute('data-entry-id', newEntryId);
   const $divRow = document.createElement('div');
   $divRow.setAttribute('class', 'row');
   // after being appended, it will be outputted because its added to the DOM
@@ -72,14 +88,29 @@ function renderEntry(entry) {
   $divRow.appendChild($divColHalfFirst);
   const $img = document.createElement('img');
   $img.setAttribute('class', 'entries-img');
-  $img.setAttribute('src', entry.entryURL);
-  $img.setAttribute('alt', entry.entryTitle);
+  if (entry.entryURL) {
+    // if there is an entry, it must has an image, so src value exists
+    $img.setAttribute('src', entry.entryURL);
+  } // else, there is not entry so no src value
+  else {
+    $img.setAttribute('src', '');
+  }
+  console.log('current image src:', $img.src); // it output the current image src along with previous image src
+  if (entry.entryTitle) {
+    $img.setAttribute('alt', entry.entryTitle);
+  } else {
+    $img.setAttribute('alt', '');
+  }
   $divColHalfFirst.appendChild($img);
   const $divColHalfSecond = document.createElement('div');
   $divColHalfSecond.setAttribute('class', 'column-half');
   $divRow.appendChild($divColHalfSecond);
   const $h2 = document.createElement('h2');
-  $h2.textContent = entry.entryTitle;
+  if (entry.entryTitle) {
+    $h2.textContent = entry.entryTitle;
+  } else {
+    $h2.textContent = ''; // default title not title
+  }
   const $divIcon = document.createElement('div');
   $divIcon.setAttribute('class', 'set-Icon');
   $divColHalfSecond.appendChild($divIcon);
@@ -88,7 +119,11 @@ function renderEntry(entry) {
   $divIcon.appendChild($h2);
   $divIcon.appendChild($icon);
   const $h5 = document.createElement('h5');
-  $h5.textContent = entry.entryTextArea;
+  if (entry.entryTextArea) {
+    $h5.textContent = entry.entryTextArea;
+  } else {
+    $h5.textContent = '';
+  }
   $divColHalfSecond.appendChild($h5);
   return $parentLI;
 }
@@ -112,13 +147,17 @@ function renderEntry(entry) {
 // safety function because even if we don't create it it will load everything
 // all our elements in ul are created in our DOM or the page
 document.addEventListener('DOMContentLoaded', () => {
+  viewSwap('entries'); // to starts at the 'entries' page when the document contents load up
+  // then the change of data.view will be sent to storage at line 222
   // creating a one entry and appending it to list ul
   for (let i = 0; i < data.entries.length; i++) {
     $ulList.appendChild(renderEntry(data.entries[i]));
   }
   // we are testing it  here because when our elements are created
   // we call toggle to switch between adding h2 no entries or seeing the entries if they are exists
-  viewSwap(data.view);
+  // seeing exact same view we left from using viewSwap()
+  viewSwap(data.view); // when refresh the creation will start from entry-form or when we open the html file
+  // so when we open the html file the first time it goes directly to 'entry-form' page
   toggleNoEntries();
 });
 $h3Entries.addEventListener('click', () => {
@@ -143,10 +182,10 @@ function viewSwap(viewName) {
     // adding class property to a DOM elements
     $divEntries.classList.remove('hidden');
     $divEntryForm.classList.add('hidden');
-    // updating our local storage data
+    // updating our local data
     data.view = viewName;
+    // updating our local storage data or updating the data.view in local storage
     writeData();
-    // updating the data.view in local storage
   } else if (viewName === 'entry-form') {
     $divEntries.classList.add('hidden');
     $divEntryForm.classList.remove('hidden');
