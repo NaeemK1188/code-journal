@@ -44,30 +44,65 @@ $form.addEventListener('submit', (event) => {
   const formTitle = $form.elements[0];
   const formURL = $form.elements[1];
   const formTextArea = $form.elements[2];
-  const entry = {
-    entryTitle: formTitle.value,
-    entryURL: formURL.value,
-    entryTextArea: formTextArea.value,
-    entryId: data.nextEntryId,
-  };
-  data.nextEntryId = data.nextEntryId + 1;
-  // every time we hit submit, a DOM tree is created or one entry li and appending it to ul a list
-  // of entries
-  // so its created quickly after submit which solves the issue of refreshing
-  // adding the new post data to the top or beginning, so we know its a new post
-  data.entries.unshift(entry);
-  // adding only the newly created entry not the whole entries s0 we can see it in DOM
-  // prepend adds the new li at the beginning not at the end which is similar to unshift()
-  // to maintain the same order in the DOM or html file like in the array entries
-  $ulList.prepend(renderEntry(entry));
-  // adding new entry data to storage
-  writeData();
-  // reset image
-  $img.src = 'images/placeholder-image-square.jpg';
-  $form.reset();
-  // when the form reset it immediately goes to entries
-  viewSwap('entries');
-  toggleNoEntries();
+  if (data.editing === null) {
+    const entry = {
+      entryTitle: formTitle.value,
+      entryURL: formURL.value,
+      entryTextArea: formTextArea.value,
+      entryId: data.nextEntryId,
+    };
+    data.nextEntryId = data.nextEntryId + 1;
+    // every time we hit submit, a DOM tree is created or one entry li and appending it to ul a list
+    // of entries
+    // so its created quickly after submit which solves the issue of refreshing
+    // adding the new post data to the top or beginning, so we know its a new post
+    data.entries.unshift(entry);
+    // adding only the newly created entry not the whole entries s0 we can see it in DOM
+    // prepend adds the new li at the beginning not at the end which is similar to unshift()
+    // to maintain the same order in the DOM or html file like in the array entries
+    $ulList.prepend(renderEntry(entry));
+    // adding new entry data to storage
+    writeData();
+    // reset image
+    $img.src = 'images/placeholder-image-square.jpg';
+    $form.reset();
+    // when the form reset it immediately goes to entries
+    viewSwap('entries');
+    toggleNoEntries();
+  } else if (data.editing !== null) {
+    // we only change the entry id
+    const entry = {
+      entryTitle: formTitle.value,
+      entryId: data.editing.entryId,
+      entryTextArea: formTextArea.value,
+      entryURL: formURL.value,
+    };
+    // finding the original entry in data,entries and replacing it with the new entry in line 119
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === entry.entryId) {
+        data.entries[i] = entry;
+      }
+    }
+    // capturing all li's in the Ul
+    const $liElements = document.querySelectorAll('li');
+    for (let i = 0; i < $liElements.length; i++) {
+      if (Number($liElements[i].dataset.entryId) === entry.entryId) {
+        const newLi = renderEntry(entry);
+        $liElements[i].replaceWith(newLi);
+        const $newH2 = document.createElement('h2');
+        $newH2.setAttribute('class', 'updated');
+        // trying to append H2 to old LI that is replaced
+        // use $newLi
+        // $liElements[i].appendChild($newH2);
+        newLi.appendChild($newH2);
+        $newH2.textContent = 'entry is Updated';
+      }
+    }
+    $h1.textContent = 'New Entry';
+    // setting it to null it doesn't not replace the new image added because it goes to the first
+    // if when data.editing === null
+    data.editing = null;
+  }
 });
 // from somewhere an entry will be passed to renderEntry function
 // returning an entry
@@ -76,6 +111,7 @@ function renderEntry(entry) {
   let newEntryId = '';
   // to handle the undefined because of the usage of ? making properties optional
   // if (entry.entryId !== undefined)
+  // we only care if it exists entry.entryId
   if (entry.entryId) {
     // if entry exists then the entryId exists, so change the type to string
     newEntryId = entry.entryId.toString();
@@ -157,7 +193,7 @@ function renderEntry(entry) {
 // safety function because even if we don't create it it will load everything
 // all our elements in ul are created in our DOM or the page
 document.addEventListener('DOMContentLoaded', () => {
-  // viewSwap('entries'); // to starts at the 'entries' page when the document contents load up
+  viewSwap(data.view); // to starts at the 'entries' page when the document contents load up
   // then the change of data.view will be sent to storage at line 222
   // creating a one entry and appending it to list ul
   for (let i = 0; i < data.entries.length; i++) {
@@ -166,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // we are testing it  here because when our elements are created
   // we call toggle to switch between adding h2 no entries or seeing the entries if they are exists
   // seeing exact same view we left from using viewSwap()
-  viewSwap(data.view); // when refresh the creation will start from entry-form or when we open the html file
+  // viewSwap(data.view); // when refresh the creation will start from entry-form or when we open the html file
   // so when we open the html file the first time it goes directly to 'entry-form' page
   toggleNoEntries();
 });
@@ -178,15 +214,15 @@ $newButton.addEventListener('click', () => {
   viewSwap('entry-form');
   // resetting when creating new entry
   $h1.textContent = 'New Entry';
+  // because image doesn't reset when we switch to New Entry
+  $img.src = 'images/placeholder-image-square.jpg';
   $form.reset();
 });
 $ulList.addEventListener('click', (event) => {
   // debugger;
   // we can see which li element the eventtarget belongs to
-  // debugger;
   // const eventTarget = event.target as HTMLLIElement;
   const $eventTarget = event.target; // ALL ELEMENTS IN DOM
-  console.log($eventTarget.tagName);
   // whenever we click its an LI element because we used closest with it
   // const eventTargetParent = (event.target as HTMLElement).closest('li');
   const $eventTargetParent = $eventTarget.closest('li'); // treating eventTarget as DOM element
@@ -200,7 +236,7 @@ $ulList.addEventListener('click', (event) => {
         data.entries[i].entryId === Number($eventTargetParent?.dataset.entryId)
       ) {
         data.editing = data.entries[i];
-        console.log(data);
+        // console.log(data);
       }
     }
     // after applying the changes, we apply them on the local storage
@@ -212,7 +248,7 @@ $ulList.addEventListener('click', (event) => {
     //   entryId: data.editing?.entryId
     // };
     if (data.editing) {
-      // we only update if er have data.editing
+      // we only update if we have data.editing
       $inputTitle.value = data.editing.entryTitle;
       $inputURL.value = data.editing?.entryURL;
       $img.src = data.editing?.entryURL;
