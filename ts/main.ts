@@ -38,13 +38,14 @@ const $NoEntriesH2 = document.querySelector('.no-entries-msg') as HTMLElement;
 // unable to select element that are not exists on the DOM like .fas.fa-pencil'
 // it will show null
 const $deleteBtn = document.querySelector('.deleteP');
+const $dialog = document.querySelector('dialog');
 
 if (!$inputTitle || !$textArea || !$deleteBtn) {
   throw new Error('$inputTitle, !$textArea, or $deleteBtn do not exist');
 }
 
-if (!$NoEntriesH2 || !$ulList) {
-  throw new Error('$NoEntriesH2 or $ulList not exist');
+if (!$NoEntriesH2 || !$ulList || !$dialog) {
+  throw new Error('$NoEntriesH2,  $ulList, $dialog do not exist');
 }
 
 if (!$h3Entries || !$newButton) {
@@ -297,6 +298,12 @@ $ulList.addEventListener('click', (event: Event) => {
   }
 });
 // -----------------------click()-------------------------------------------------
+
+// -----------------------click()-------------------------------------------------
+
+$deleteBtn.addEventListener('click', () => {
+  $dialog.showModal();
+});
 
 // -------------------toggleNoEntries()--------------------------------------------
 function toggleNoEntries(): void {

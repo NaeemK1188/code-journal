@@ -166,3 +166,39 @@ h5 {
   /* element disappear but still in place  */
   visibility: hidden;
 }
+
+dialog {
+  border-color: transparent;
+  border-radius: 5px;
+  font-size: 10px;
+}
+
+@media screen and (width >= 768px) {
+  dialog {
+    border-color: transparent;
+    border-radius: 5px;
+    font-size: 15px;
+  }
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.action-modal {
+  display: flex;
+  justify-content: center;
+  justify-content: space-between;
+}
+
+.action-modal > button {
+  background-color: rgb(186, 185, 185);
+  color: black;
+  font-size: large;
+  width: 100px;
+}
+
+.action-modal > button:active {
+  background-color: red;
+  color: white;
+}
