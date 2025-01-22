@@ -257,7 +257,12 @@ $deleteBtn.addEventListener('click', () => {
 // -------------------------click()-----------------------------------------------
 // when closing the dialog, it resets to an empty entry-form instead of staying in the same page ?
 $dismissBtn.addEventListener('click', () => {
+  // its acting as submit because in html i didn't specify the type of the button
+  // and its because inside the form, so every button will be a submit by default
+  // change the to button to respond properly and act as normal button
   $dialog.close();
+  $deleteBtn.className = 'deleteP';
+  $h1.textContent = 'Edit Entry';
 });
 // ------------------------click()----------------------------------------------------
 // -----------------------click()------------------------------------------------
