@@ -132,12 +132,6 @@ $form.addEventListener('submit', (event: Event) => {
       if (Number($liElements[i].dataset.entryId) === entry.entryId) {
         const newLi = renderEntry(entry);
         $liElements[i].replaceWith(newLi);
-        const $newH2 = document.createElement('h2');
-        $newH2.setAttribute('class', 'updated');
-        // trying to append H2 to old LI that is replaced
-        // use the newLi rendered
-        newLi.appendChild($newH2);
-        $newH2.textContent = 'entry is Updated';
       }
     }
 
