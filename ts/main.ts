@@ -60,6 +60,7 @@ if (!$inputURL || !$img || !$form) {
   throw new Error('$inputURL or $img or $form are not exists');
 }
 
+// --------------------input()----------------------------------
 $inputURL.addEventListener('input', (event: Event) => {
   const eventTarget = event.target as HTMLInputElement;
 
@@ -67,7 +68,9 @@ $inputURL.addEventListener('input', (event: Event) => {
 
   $img.src = imgURL;
 });
+// --------------------input()----------------------------------
 
+// -------------------submit()---------------------------------------------
 $form.addEventListener('submit', (event: Event) => {
   event.preventDefault();
   const formElements = $form.elements;
@@ -134,14 +137,18 @@ $form.addEventListener('submit', (event: Event) => {
         $liElements[i].replaceWith(newLi);
       }
     }
-
+    // update the status title from Edit Entry to New Entry when data.editing != null and clicking submit
     $h1.textContent = 'New Entry';
     // setting it to null so it doesn't not replace the new image added
     // because it goes the first if when data.editing === null
     data.editing = null;
+    $form.reset();
+    $img.src = 'images/placeholder-image-square.jpg';
   }
 });
+// -------------------submit()---------------------------------------------
 
+// ------------------------renderEntry()------------------------------------------
 // returning an entry
 // it follows the blueprint of the li structure in html
 function renderEntry(entry: Entry): HTMLLIElement {
@@ -218,7 +225,9 @@ function renderEntry(entry: Entry): HTMLLIElement {
 
   return $parentLI;
 }
+// ------------------------renderEntry()------------------------------------------
 
+// -----------------------DOMContentLoader()-------------------------------------c
 // safety function because even if we don't create it it will load everything
 // all our elements in ul are created in our DOM or the page
 document.addEventListener('DOMContentLoaded', () => {
@@ -234,12 +243,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // so when we open the html file the first time it goes directly to 'entry-form' page
   toggleNoEntries();
 });
+// -----------------------DOMContentLoader()-------------------------------------
 
+// --------------------------click()----------------------------------------------
 $h3Entries.addEventListener('click', () => {
   // just passing any string even a literal not just a variable
   viewSwap('entries');
 });
+// --------------------------click()----------------------------------------------
 
+// --------------------------click()----------------------------------------------
 $newButton.addEventListener('click', () => {
   viewSwap('entry-form');
   // resetting when creating new entry
@@ -248,7 +261,9 @@ $newButton.addEventListener('click', () => {
   $img.src = 'images/placeholder-image-square.jpg';
   $form.reset();
 });
+// --------------------------click()----------------------------------------------
 
+// -----------------------click()-------------------------------------------------
 $ulList.addEventListener('click', (event: Event) => {
   // we can see which li element the eventtarget belongs to because eventTarget is DOM element
   const $eventTarget = event.target as HTMLElement; // ALL ELEMENTS IN DOM
@@ -256,7 +271,6 @@ $ulList.addEventListener('click', (event: Event) => {
   const $eventTargetParent = $eventTarget.closest('li'); // treating eventTarget as DOM element
   if ($eventTarget.tagName === 'I') {
     // after using .closest we can know the entryId of the Li
-
     for (let i = 0; i < data.entries.length; i++) {
       if (
         data.entries[i].entryId === Number($eventTargetParent?.dataset.entryId)
@@ -267,6 +281,7 @@ $ulList.addEventListener('click', (event: Event) => {
     // after applying the changes, we apply them on the local storage
     writeData();
 
+    // update entry inputs with the data.editing that was found through the for loop by entryID
     if (data.editing) {
       // we only update if we have data.editing
       $inputTitle.value = data.editing.entryTitle;
@@ -279,7 +294,9 @@ $ulList.addEventListener('click', (event: Event) => {
     viewSwap('entry-form');
   }
 });
+// -----------------------click()-------------------------------------------------
 
+// -------------------toggleNoEntries()--------------------------------------------
 function toggleNoEntries(): void {
   // we can override the name of the class and applying other class names to it
   // to change the behavior of the DOM element
@@ -289,7 +306,9 @@ function toggleNoEntries(): void {
     $NoEntriesH2.className = 'hidden';
   }
 }
+// -------------------toggleNoEntries()--------------------------------------------
 
+// -------------------viewSwap()------------------------------------------------------
 // this function is just doing the functionality of swapping pages
 function viewSwap(viewName: string): void {
   if (viewName === 'entries') {
@@ -308,3 +327,4 @@ function viewSwap(viewName: string): void {
     writeData();
   }
 }
+// -------------------viewSwap()------------------------------------------------------

@@ -43,8 +43,20 @@ textarea {
 
 .btn-container {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
+
+/* button {
+  background-color: rgb(102, 32, 167);
+    color: white;
+    border-radius: 5px;
+    width: 60px;
+    height: 40px;
+    cursor: pointer;
+    position: relative;
+} */
+
+/* to use > < in media use it only with width not max or min width */
 
 button {
   background-color: rgb(102, 32, 167);
@@ -136,4 +148,21 @@ h5 {
 
 .fas.fa-pencil:active {
   top: 2px;
+}
+
+.deleteP {
+  color: red;
+  text-decoration: underline;
+  position: relative;
+  cursor: pointer;
+}
+
+.deleteP:active {
+  color: black;
+}
+
+/* or using opacity 0, element disappear but still in place  */
+.hiddenP {
+  /* element disappear but still in place  */
+  visibility: hidden;
 }

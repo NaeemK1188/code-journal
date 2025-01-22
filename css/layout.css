@@ -13,6 +13,9 @@
   flex-wrap: wrap;
 }
 
+/* expecting only one element in each row. In our case there is two element */
+
+/* everything will take the full size of the column when screen is small */
 .column-full,
 .column-half {
   width: 100%;
