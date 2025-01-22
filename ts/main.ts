@@ -327,10 +327,6 @@ $dismissBtn.addEventListener('click', () => {
 // -----------------------click()------------------------------------------------
 
 $confirmBtn.addEventListener('click', () => {
-  // const eventTarget = $deleteBtn as HTMLElement;
-  // const entryTarget = eventTarget.closest('li');
-  // console.log(entryTarget);
-
   const $liElements = document.querySelector('li');
 
   for (let i = 0; i < data.entries.length; i++) {
