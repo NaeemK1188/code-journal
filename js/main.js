@@ -18,8 +18,9 @@ const $ulList = document.querySelector('.Entry-List-ul');
 const $NoEntriesH2 = document.querySelector('.no-entries-msg');
 // unable to select element that are not exists on the DOM like .fas.fa-pencil'
 // it will show null
-if (!$inputTitle || !$textArea) {
-  throw new Error('$inputTitle or !$textArea not exist');
+const $deleteBtn = document.querySelector('.deleteP');
+if (!$inputTitle || !$textArea || !$deleteBtn) {
+  throw new Error('$inputTitle, !$textArea, or $deleteBtn do not exist');
 }
 if (!$NoEntriesH2 || !$ulList) {
   throw new Error('$NoEntriesH2 or $ulList not exist');
@@ -100,6 +101,7 @@ $form.addEventListener('submit', (event) => {
     }
     // update the status title from Edit Entry to New Entry when data.editing != null and clicking submit
     $h1.textContent = 'New Entry';
+    $deleteBtn.className = 'hiddenP';
     // setting it to null so it doesn't not replace the new image added
     // because it goes the first if when data.editing === null
     data.editing = null;
@@ -204,6 +206,7 @@ $newButton.addEventListener('click', () => {
   viewSwap('entry-form');
   // resetting when creating new entry
   $h1.textContent = 'New Entry';
+  $deleteBtn.className = 'hiddenP';
   // because image doesn't reset when we switch to New Entry
   $img.src = 'images/placeholder-image-square.jpg';
   $form.reset();
@@ -234,6 +237,7 @@ $ulList.addEventListener('click', (event) => {
       $img.src = data.editing?.entryURL;
       $textArea.value = data.editing?.entryTextArea;
       $h1.textContent = 'Edit Entry';
+      $deleteBtn.className = 'deleteP';
     }
     viewSwap('entry-form');
   }
