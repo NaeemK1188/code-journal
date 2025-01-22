@@ -20,20 +20,22 @@ const $NoEntriesH2 = document.querySelector('.no-entries-msg');
 // it will show null
 const $deleteBtn = document.querySelector('.deleteP');
 const $dialog = document.querySelector('dialog');
+const $dismissBtn = document.querySelector('.dismiss');
+const $confirmBtn = document.querySelector('.approve');
 if (!$inputTitle || !$textArea || !$deleteBtn) {
-  throw new Error('$inputTitle, !$textArea, or $deleteBtn do not exist');
+  throw new Error('$inputTitle, !$textArea,  or $deleteBtn do not exist');
 }
 if (!$NoEntriesH2 || !$ulList || !$dialog) {
   throw new Error('$NoEntriesH2,  $ulList, $dialog do not exist');
 }
-if (!$h3Entries || !$newButton) {
-  throw new Error('$$h3Entries or $newButton are not exist');
+if (!$h3Entries || !$newButton || !$dismissBtn) {
+  throw new Error('$$h3Entries, $newButton, $dismissBtn do not exist');
 }
-if (!$divEntries || !$divEntryForm) {
-  throw new Error('$divEntries or !$divEntryForm not exist');
+if (!$divEntries || !$divEntryForm || !$confirmBtn) {
+  throw new Error('$divEntries, !$divEntryForm, or $confirmBtn do not exist');
 }
 if (!$inputURL || !$img || !$form) {
-  throw new Error('$inputURL or $img or $form are not exists');
+  throw new Error('$inputURL or $img or $form do not exists');
 }
 // --------------------input()----------------------------------
 $inputURL.addEventListener('input', (event) => {
@@ -50,6 +52,7 @@ $form.addEventListener('submit', (event) => {
   const formURL = $form.elements[1];
   const formTextArea = $form.elements[2];
   // when the data.editing array is empty or no editing yet
+  // no editing happening
   if (data.editing === null) {
     const entry = {
       entryTitle: formTitle.value,
@@ -76,6 +79,7 @@ $form.addEventListener('submit', (event) => {
     toggleNoEntries();
   }
   // when data.editing array has data to edit
+  // if there is editing happening
   else if (data.editing !== null) {
     // we only change the entry id
     // so we can use it in comparison
@@ -88,6 +92,7 @@ $form.addEventListener('submit', (event) => {
     // finding the original entry in data.entries, and then replacing it with the new entry in line 119
     // so we can then append it to the ul
     for (let i = 0; i < data.entries.length; i++) {
+      // the previous entry == the new entry from editing
       if (data.entries[i].entryId === entry.entryId) {
         data.entries[i] = entry;
       }
@@ -95,6 +100,7 @@ $form.addEventListener('submit', (event) => {
     // capturing all li's in the Ul
     const $liElements = document.querySelectorAll('li');
     for (let i = 0; i < $liElements.length; i++) {
+      // old li === new li from editing
       if (Number($liElements[i].dataset.entryId) === entry.entryId) {
         const newLi = renderEntry(entry);
         $liElements[i].replaceWith(newLi);
@@ -106,8 +112,6 @@ $form.addEventListener('submit', (event) => {
     // setting it to null so it doesn't not replace the new image added
     // because it goes the first if when data.editing === null
     data.editing = null;
-    $form.reset();
-    $img.src = 'images/placeholder-image-square.jpg';
   }
 });
 // -------------------submit()---------------------------------------------
@@ -183,7 +187,7 @@ function renderEntry(entry) {
 // safety function because even if we don't create it it will load everything
 // all our elements in ul are created in our DOM or the page
 document.addEventListener('DOMContentLoaded', () => {
-  viewSwap(data.view); // to starts at the 'entries' page when the document contents load up
+  // viewSwap(data.view); // to starts at the 'entries' page when the document contents load up
   // creating one entry and appending it to list ul
   for (let i = 0; i < data.entries.length; i++) {
     $ulList.appendChild(renderEntry(data.entries[i]));
@@ -193,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // seeing exact same view we left from using viewSwap()
   // when refresh the creation will start from entry-form or when we open the html file using viewSwap(data.view);
   // so when we open the html file the first time it goes directly to 'entry-form' page
+  viewSwap(data.view); // fixing the error of not deleting the image before refresh
   toggleNoEntries();
 });
 // -----------------------DOMContentLoader()-------------------------------------
@@ -248,6 +253,31 @@ $ulList.addEventListener('click', (event) => {
 $deleteBtn.addEventListener('click', () => {
   $dialog.showModal();
 });
+// -------------------------click()----------------------------------------------
+// -------------------------click()-----------------------------------------------
+// when closing the dialog, it resets to an empty entry-form instead of staying in the same page ?
+$dismissBtn.addEventListener('click', () => {
+  $dialog.close();
+});
+// ------------------------click()----------------------------------------------------
+// -----------------------click()------------------------------------------------
+$confirmBtn.addEventListener('click', () => {
+  // const eventTarget = $deleteBtn as HTMLElement;
+  // const entryTarget = eventTarget.closest('li');
+  // console.log(entryTarget);
+  const $liElements = document.querySelector('li');
+  for (let i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].entryId === data.editing?.entryId) {
+      // removing one entry at specified index in the entries array
+      data.entries.splice(i, 1);
+      $liElements?.remove();
+    }
+  }
+  toggleNoEntries();
+  $dialog.close();
+  viewSwap('entries');
+});
+// -----------------------click()------------------------------------------------
 // -------------------toggleNoEntries()--------------------------------------------
 function toggleNoEntries() {
   // we can override the name of the class and applying other class names to it
