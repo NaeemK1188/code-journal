@@ -80,6 +80,8 @@
                 <dialog>
                   <h2>Are you sure you want to delete this entry?</h2>
                   <div class="action-modal">
+                    the default behavior of the button in form is submit type we
+                    need to assign the type to button
                     <button class="dismiss">CANCEL</button>
                     <button class="approve">CONFIRM</button>
                   </div>
@@ -108,6 +110,10 @@
         <ul class="Entry-List-ul"></ul>
       </div>
     </main>
+    <!-- our programs runs first data.ts that will be global file that is getting accessed by
+    the local files or sibling files.
+    our program reads everything in data to create our entire program data and check local storage
+    to update our local data, then it reads the second file main.ts and compile its functionality -->
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
   </body>
