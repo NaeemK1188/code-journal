@@ -21,7 +21,6 @@ const $textArea = document.querySelector('textarea') as
   | any;
 const $img = document.querySelector('img') as HTMLImageElement | any;
 const $h1 = document.querySelector('.New-Entry-H1') as HTMLElement;
-
 const $form = document.querySelector('form');
 
 // we are selecting div with data-view="entries"
@@ -36,30 +35,34 @@ const $h3Entries = document.querySelector('.header-h3');
 const $newButton = document.querySelector('.new-btn');
 const $ulList = document.querySelector('.Entry-List-ul');
 const $NoEntriesH2 = document.querySelector('.no-entries-msg') as HTMLElement;
-
 // unable to select element that are not exists on the DOM like .fas.fa-pencil'
 // it will show null
+const $deleteBtn = document.querySelector('.deleteP');
+const $dialog = document.querySelector('dialog');
+const $dismissBtn = document.querySelector('.dismiss');
+const $confirmBtn = document.querySelector('.approve');
 
-if (!$inputTitle || !$textArea) {
-  throw new Error('$inputTitle or !$textArea not exist');
+if (!$inputTitle || !$textArea || !$deleteBtn) {
+  throw new Error('$inputTitle, !$textArea,  or $deleteBtn do not exist');
 }
 
-if (!$NoEntriesH2 || !$ulList) {
-  throw new Error('$NoEntriesH2 or $ulList not exist');
+if (!$NoEntriesH2 || !$ulList || !$dialog) {
+  throw new Error('$NoEntriesH2,  $ulList, $dialog do not exist');
 }
 
-if (!$h3Entries || !$newButton) {
-  throw new Error('$$h3Entries or $newButton are not exist');
+if (!$h3Entries || !$newButton || !$dismissBtn) {
+  throw new Error('$$h3Entries, $newButton, $dismissBtn do not exist');
 }
 
-if (!$divEntries || !$divEntryForm) {
-  throw new Error('$divEntries or !$divEntryForm not exist');
+if (!$divEntries || !$divEntryForm || !$confirmBtn) {
+  throw new Error('$divEntries, !$divEntryForm, or $confirmBtn do not exist');
 }
 
 if (!$inputURL || !$img || !$form) {
-  throw new Error('$inputURL or $img or $form are not exists');
+  throw new Error('$inputURL or $img or $form do not exists');
 }
 
+// --------------------input()----------------------------------
 $inputURL.addEventListener('input', (event: Event) => {
   const eventTarget = event.target as HTMLInputElement;
 
@@ -67,7 +70,9 @@ $inputURL.addEventListener('input', (event: Event) => {
 
   $img.src = imgURL;
 });
+// --------------------input()----------------------------------
 
+// -------------------submit()---------------------------------------------
 $form.addEventListener('submit', (event: Event) => {
   event.preventDefault();
   const formElements = $form.elements;
@@ -77,6 +82,7 @@ $form.addEventListener('submit', (event: Event) => {
   const formTextArea = $form.elements[2] as HTMLTextAreaElement;
 
   // when the data.editing array is empty or no editing yet
+  // no editing happening
   if (data.editing === null) {
     const entry: Entry = {
       entryTitle: formTitle.value,
@@ -107,6 +113,7 @@ $form.addEventListener('submit', (event: Event) => {
   }
 
   // when data.editing array has data to edit
+  // if there is editing happening
   else if (data.editing !== null) {
     // we only change the entry id
     // so we can use it in comparison
@@ -120,6 +127,7 @@ $form.addEventListener('submit', (event: Event) => {
     // finding the original entry in data.entries, and then replacing it with the new entry in line 119
     // so we can then append it to the ul
     for (let i = 0; i < data.entries.length; i++) {
+      // the previous entry == the new entry from editing
       if (data.entries[i].entryId === entry.entryId) {
         data.entries[i] = entry;
       }
@@ -129,19 +137,23 @@ $form.addEventListener('submit', (event: Event) => {
     const $liElements = document.querySelectorAll('li');
 
     for (let i = 0; i < $liElements.length; i++) {
+      // old li === new li from editing
       if (Number($liElements[i].dataset.entryId) === entry.entryId) {
         const newLi = renderEntry(entry);
         $liElements[i].replaceWith(newLi);
       }
     }
-
+    // update the status title from Edit Entry to New Entry when data.editing != null and clicking submit
     $h1.textContent = 'New Entry';
+    $deleteBtn.className = 'hiddenP';
     // setting it to null so it doesn't not replace the new image added
     // because it goes the first if when data.editing === null
     data.editing = null;
   }
 });
+// -------------------submit()---------------------------------------------
 
+// ------------------------renderEntry()------------------------------------------
 // returning an entry
 // it follows the blueprint of the li structure in html
 function renderEntry(entry: Entry): HTMLLIElement {
@@ -218,11 +230,13 @@ function renderEntry(entry: Entry): HTMLLIElement {
 
   return $parentLI;
 }
+// ------------------------renderEntry()------------------------------------------
 
+// -----------------------DOMContentLoader()-------------------------------------c
 // safety function because even if we don't create it it will load everything
 // all our elements in ul are created in our DOM or the page
 document.addEventListener('DOMContentLoaded', () => {
-  viewSwap(data.view); // to starts at the 'entries' page when the document contents load up
+  // viewSwap(data.view); // to starts at the 'entries' page when the document contents load up
   // creating one entry and appending it to list ul
   for (let i = 0; i < data.entries.length; i++) {
     $ulList.appendChild(renderEntry(data.entries[i]));
@@ -232,23 +246,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // seeing exact same view we left from using viewSwap()
   // when refresh the creation will start from entry-form or when we open the html file using viewSwap(data.view);
   // so when we open the html file the first time it goes directly to 'entry-form' page
+  viewSwap(data.view); // fixing the error of not deleting the image before refresh
   toggleNoEntries();
 });
+// -----------------------DOMContentLoader()-------------------------------------
 
+// --------------------------click()----------------------------------------------
 $h3Entries.addEventListener('click', () => {
   // just passing any string even a literal not just a variable
   viewSwap('entries');
 });
+// --------------------------click()----------------------------------------------
 
+// --------------------------click()----------------------------------------------
 $newButton.addEventListener('click', () => {
   viewSwap('entry-form');
   // resetting when creating new entry
   $h1.textContent = 'New Entry';
+  $deleteBtn.className = 'hiddenP';
   // because image doesn't reset when we switch to New Entry
   $img.src = 'images/placeholder-image-square.jpg';
   $form.reset();
 });
+// --------------------------click()----------------------------------------------
 
+// -----------------------click()-------------------------------------------------
 $ulList.addEventListener('click', (event: Event) => {
   // we can see which li element the eventtarget belongs to because eventTarget is DOM element
   const $eventTarget = event.target as HTMLElement; // ALL ELEMENTS IN DOM
@@ -256,7 +278,6 @@ $ulList.addEventListener('click', (event: Event) => {
   const $eventTargetParent = $eventTarget.closest('li'); // treating eventTarget as DOM element
   if ($eventTarget.tagName === 'I') {
     // after using .closest we can know the entryId of the Li
-
     for (let i = 0; i < data.entries.length; i++) {
       if (
         data.entries[i].entryId === Number($eventTargetParent?.dataset.entryId)
@@ -267,6 +288,7 @@ $ulList.addEventListener('click', (event: Event) => {
     // after applying the changes, we apply them on the local storage
     writeData();
 
+    // update entry inputs with the data.editing that was found through the for loop by entryID
     if (data.editing) {
       // we only update if we have data.editing
       $inputTitle.value = data.editing.entryTitle;
@@ -274,12 +296,54 @@ $ulList.addEventListener('click', (event: Event) => {
       $img.src = data.editing?.entryURL;
       $textArea.value = data.editing?.entryTextArea;
       $h1.textContent = 'Edit Entry';
+      $deleteBtn.className = 'deleteP';
     }
 
     viewSwap('entry-form');
   }
 });
+// -----------------------click()-------------------------------------------------
 
+// -----------------------click()-------------------------------------------------
+
+$deleteBtn.addEventListener('click', () => {
+  $dialog.showModal();
+});
+
+// -------------------------click()----------------------------------------------
+
+// -------------------------click()-----------------------------------------------
+// when closing the dialog, it resets to an empty entry-form instead of staying in the same page ?
+$dismissBtn.addEventListener('click', () => {
+  // its acting as submit because in html i didn't specify the type of the button
+  // and its because inside the form, so every button will be a submit by default
+  // change the to button to respond properly and act as normal button
+  $dialog.close();
+  $deleteBtn.className = 'deleteP';
+  $h1.textContent = 'Edit Entry';
+});
+// ------------------------click()----------------------------------------------------
+
+// -----------------------click()------------------------------------------------
+
+$confirmBtn.addEventListener('click', () => {
+  const $liElements = document.querySelector('li');
+
+  for (let i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].entryId === data.editing?.entryId) {
+      // removing one entry at specified index in the entries array
+      data.entries.splice(i, 1);
+      $liElements?.remove();
+    }
+  }
+  toggleNoEntries();
+  $dialog.close();
+  viewSwap('entries');
+});
+
+// -----------------------click()------------------------------------------------
+
+// -------------------toggleNoEntries()--------------------------------------------
 function toggleNoEntries(): void {
   // we can override the name of the class and applying other class names to it
   // to change the behavior of the DOM element
@@ -289,7 +353,9 @@ function toggleNoEntries(): void {
     $NoEntriesH2.className = 'hidden';
   }
 }
+// -------------------toggleNoEntries()--------------------------------------------
 
+// -------------------viewSwap()------------------------------------------------------
 // this function is just doing the functionality of swapping pages
 function viewSwap(viewName: string): void {
   if (viewName === 'entries') {
@@ -308,3 +374,4 @@ function viewSwap(viewName: string): void {
     writeData();
   }
 }
+// -------------------viewSwap()------------------------------------------------------
